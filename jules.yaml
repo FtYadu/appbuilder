@@ -1,0 +1,21 @@
+project: assistant
+repo: github.com/yourorg/assistant
+triggers:
+  - label: jules:scaffold
+  - label: jules:tests
+tasks:
+  scaffold-api:
+    path: services/api
+    prompt: >
+      Create Fastify TS API with routes listed in /docs/api.md, zod validation,
+      OpenAPI spec, and unit tests. Use pnpm. Generate Dockerfile.
+  db-migrate:
+    path: packages/core
+    prompt: >
+      Add Prisma schema for data model in /docs/schema.md. Enable pgvector ext.
+  media-workers:
+    path: services/media
+    prompt: >
+      FFmpeg proxy job + Whisper ASR job + vision tagging job. Queue: BullMQ.
+ci:
+  on_pr: run: pnpm -w lint && pnpm -w test
