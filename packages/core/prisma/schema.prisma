@@ -1,0 +1,95 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+extension pgvector {
+  provider = "postgresql"
+}
+
+model User {
+  id        String     @id @default(cuid())
+  org_id    String
+  role      String
+  prefs     Json?      @db.JsonB
+  scopes    Json?      @db.JsonB
+  contacts  Contact[]
+}
+
+model Contact {
+  id        String     @id @default(cuid())
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String
+  channels  Json?      @db.JsonB
+  notes     String?
+  embedding Unsupported("vector(1536)")? // Example dimension
+  projects  Project[]
+}
+
+model Project {
+  id       String   @id @default(cuid())
+  client   Contact? @relation(fields: [clientId], references: [id])
+  clientId String?
+  status   String
+  tags     Json?    @db.JsonB
+  tasks    Task[]
+}
+
+model Task {
+  id         String   @id @default(cuid())
+  project    Project? @relation(fields: [projectId], references: [id])
+  projectId  String?
+  due_at     DateTime?
+  status     String
+  source     String
+  approvals  Json?    @db.JsonB
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  channel     String
+  direction   String
+  content     String
+  attachments Json?    @db.JsonB
+  meta        Json?    @db.JsonB
+}
+
+model Automation {
+  id       String  @id @default(cuid())
+  triggers Json    @db.JsonB
+  actions  Json    @db.JsonB
+  policy   Json?   @db.JsonB
+  enabled  Boolean @default(true)
+}
+
+model MediaAsset {
+  id          String @id @default(cuid())
+  uri         String
+  checksum    String
+  proxy_uri   String?
+  tags        Json?   @db.JsonB
+  transcripts Json?   @db.JsonB
+}
+
+model Job {
+  id         String    @id @default(cuid())
+  type       String
+  status     String
+  metrics    Json?     @db.JsonB
+  error      String?
+  started_at DateTime  @default(now())
+  ended_at   DateTime?
+}
+
+model MemoryChunk {
+  id         String   @id @default(cuid())
+  entity_ref String
+  embedding  Unsupported("vector(1536)")? // Example dimension
+  ttl        DateTime?
+  provenance String
+}
