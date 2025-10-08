@@ -1,5 +1,5 @@
 {
-  "name": "api-service",
+  "name": "agent-service",
   "version": "1.0.0",
   "private": true,
   "main": "dist/index.js",
@@ -10,9 +10,9 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@prisma/client": "^5.0.0",
+    "@openai/agents": "^0.1.9",
     "fastify": "^4.0.0",
-    "openai": "^4.0.0",
+    "langfuse": "^2.1.0",
     "zod": "^3.25.40"
   },
   "devDependencies": {
