@@ -5,7 +5,9 @@ This document describes the database schema for the Synapsy assistant, designed 
 ## Data Models
 
 ### `users`
+
 Represents a user of the assistant.
+
 - `id`: Unique identifier for the user.
 - `org_id`: The organization the user belongs to.
 - `role`: The user's role (e.g., `admin`, `user`).
@@ -13,7 +15,9 @@ Represents a user of the assistant.
 - `scopes`: JSONB field for user permissions and scopes.
 
 ### `contacts`
+
 Represents a contact in the user's personal CRM.
+
 - `id`: Unique identifier for the contact.
 - `user_id`: Foreign key to the `users` table.
 - `channels`: JSONB field for contact information (e.g., email, phone).
@@ -21,14 +25,18 @@ Represents a contact in the user's personal CRM.
 - `embedding`: Vector field for semantic search.
 
 ### `projects`
+
 Represents a project.
+
 - `id`: Unique identifier for the project.
 - `client_id`: Foreign key to the `contacts` table.
 - `status`: The current status of the project.
 - `tags`: JSONB field for project tags.
 
 ### `tasks`
+
 Represents a task.
+
 - `id`: Unique identifier for the task.
 - `project_id`: Foreign key to the `projects` table.
 - `due_at`: Timestamp for when the task is due.
@@ -37,7 +45,9 @@ Represents a task.
 - `approvals`: JSONB field for approval information.
 
 ### `messages`
+
 Represents a message from any channel.
+
 - `id`: Unique identifier for the message.
 - `channel`: The channel the message came from (e.g., `telegram`, `email`).
 - `direction`: `inbound` or `outbound`.
@@ -46,7 +56,9 @@ Represents a message from any channel.
 - `meta`: JSONB field for any additional metadata.
 
 ### `automations`
+
 Represents an automation rule.
+
 - `id`: Unique identifier for the automation.
 - `triggers`: JSONB field describing the triggers.
 - `actions`: JSONB field describing the actions.
@@ -54,7 +66,9 @@ Represents an automation rule.
 - `enabled`: Boolean indicating if the automation is active.
 
 ### `media_assets`
+
 Represents a media asset.
+
 - `id`: Unique identifier for the media asset.
 - `uri`: The URI of the original media file.
 - `checksum`: The checksum of the original file.
@@ -63,7 +77,9 @@ Represents a media asset.
 - `transcripts`: JSONB field for ASR transcripts.
 
 ### `jobs`
+
 Represents a background job.
+
 - `id`: Unique identifier for the job.
 - `type`: The type of job (e.g., `media.proxy`, `media.asr`).
 - `status`: The current status of the job.
@@ -73,7 +89,9 @@ Represents a background job.
 - `ended_at`: Timestamp for when the job ended.
 
 ### `memory_chunks`
+
 Represents a chunk of memory for RAG.
+
 - `id`: Unique identifier for the memory chunk.
 - `entity_ref`: Reference to the entity this memory is about.
 - `embedding`: Vector field for semantic search.

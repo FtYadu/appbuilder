@@ -3,9 +3,9 @@ node_modules
 /.pnpm-store
 
 # Build artifacts
-/dist
-/build
-/coverage
+dist
+build
+coverage
 
 # Logs
 logs
